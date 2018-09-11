@@ -1,9 +1,9 @@
-.html {
+.Scale-html {
     text-align: center;
     margin-bottom: 2em;
 }
 
-.bar {
+.Scale-bar {
     margin-top: 50px;
     width: 300px;
     height: 20px;
@@ -11,11 +11,11 @@
     /*background: green;*/
 }
 
-.handle, .handle-label, .scale-label {
+.Scale-handle, .Scale-handle-label, .Scale-scale-label {
     font-family: sans-serif;
     position: absolute;
 }
-.handle {
+.Scale-handle {
     width: 30px;
     height: 30px;
     cursor: default;
@@ -23,7 +23,7 @@
     border: 1px solid white;
 }
 
-.button {
+.Scale-button {
     width: 7em;
     height: 1.5em;
     background: #26396B;

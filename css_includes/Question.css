@@ -1,22 +1,22 @@
-.Question {
+.Question-Question {
     margin-left: 0;
     padding-left: 0;
 }
-.instructions-text {
+.Question-instructions-text {
     font-style: italic;
     clear: left;
     padding-top: 1em;
     font-size: small;
 }
-li.normal-answer {
+li.Question-normal-answer {
     text-align: left;
     cursor: pointer;
     padding-bottom: 1em;
 }
-li:hover.normal-answer {
+li:hover.Question-normal-answer {
     cursor: pointer;
 }
-li.scale-box {
+li.Question-scale-box {
     float: left;
     list-style: none;
     margin-left: 0;
@@ -29,7 +29,7 @@ li.scale-box {
     padding-top: 0.5em;
     text-align: center;
 }
-.scale-comment-box {
+.Question-scale-comment-box {
     float: left;
     list-style: none;
     margin-left: 0em;
@@ -40,21 +40,20 @@ li.scale-box {
     text-align: center;
     font-style: italic;
 }
-li.scale-box a {
-    text-decoration: none; 
-    display: block;
-    vertical-align: middle;
-}
-li.scale-box a:hover {
+li.Question-scale-box a {
     text-decoration: none;
     display: block;
     vertical-align: middle;
 }
-span.fake-link {
+li.Question-scale-box a:hover {
+    text-decoration: none;
+    display: block;
+    vertical-align: middle;
+}
+span.Question-fake-link {
     color: blue;
     cursor: pointer;
 }
-span:hover.fake-link {
+span:hover.Question-fake-link {
     cursor: pointer;
 }
-
