@@ -12,9 +12,8 @@ jqueryWidget: {
         if (this.options.url == undefined){
             this.html = this.options.html;
         } else {
-            this.html = fetch(this.options.url).then(function(response) {
-              return response.text();
-            })
+            var urlText = $.get(this.options.url)
+            this.html = urlText.responseText
         }
         this.element.addClass(this.cssPrefix + "message");
         this.element.append(htmlCodeToDOM(this.html));
