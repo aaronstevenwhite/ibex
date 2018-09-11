@@ -9,7 +9,13 @@ jqueryWidget: {
         this.utils = this.options._utils;
         this.finishedCallback = this.options._finishedCallback;
 
-        this.html = this.options.html;
+        if (this.options.url == undefined){
+            this.html = this.options.html;
+        } else {
+            this.html = fetch(this.options.url).then(function(response) {
+              return response.text();
+            })
+        }
         this.element.addClass(this.cssPrefix + "message");
         this.element.append(htmlCodeToDOM(this.html));
 
@@ -92,7 +98,7 @@ jqueryWidget: {
 },
 
 properties: {
-    obligatory: ["html"],
+    obligatory: [],
     countsForProgressBar: false,
     htmlDescription: function (opts) {
         return truncateHTML(htmlCodeToDOM(opts.html), 100);
