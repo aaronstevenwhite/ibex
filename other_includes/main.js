@@ -18,34 +18,8 @@ setTimeout(function () {
     $("<body>").append(loadingMessage);
 }, 500);
 
-$.ajax({
-    url: __server_py_script_name__ + '?allchunks=1',
-    cache: false,
-    dataType: 'text', // We're still trying to support IE 6 LOL
-    success: function (data) {
-        if (alreadyLoaded && loadingMessage)
-            loadingMessage.remove();
-        alreadyLoaded = true;
 
-        var cs;
-        try {
-            var o = JSON.parse(data);
-            if (typeof(o) != "object")
-                throw "error";
-            setChunks(o);
-            startup();
-        }
-        catch (e) {
-            $("<body>").append($("<p>").text(conf_loadingFatalErrorMessage));
-        }
-    },
-    error: function () {
-        if (loadingMessage)
-            loadingMessage.remove()
-        alreadyLoaded = true;
-        $("<body>").append($("<p>").text(conf_loadingFatalErrorMessage));
-    }
-});
+startup();
 
 });
 
@@ -96,11 +70,8 @@ function renewInner() {
 
 renewInner();
 
-var counter = __counter_value_from_server__;
-if (typeof(counterOverride) != "undefined") {
-    assert(! isNaN(parseInt(counterOverride)), "Bad value for 'counterOverride' config variable.");
-    counter = parseInt(counterOverride);
-}
+// set counter to random integer
+var counter = Math.floor(1000 * Math.random());
 
 // Convert the "defaults" variable to a hash.
 var ht_defaults = { };
@@ -126,103 +97,18 @@ function Element(itemNumber, elementNumber, type, group, controller, options) {
     this.options = options;
 }
 
-var COUNTER_HAS_ALREADY_BEEN_UPDATED = false;
-$.widget("ui.__SetCounter__", {
-    _init: function () {
-        var q = 'inc-1'; // Default
-        if (this.options.inc) {
-            assert(typeof(this.options.inc) == "number", "Bad value for option 'inc' of __SetCounter__");
-            q = 'inc-' + this.options.inc;
-        }
-        else if (this.options.set) {
-            assert(typeof(this.options.set) == "number", "Bad value for option 'set' of __SetCounter__");
-            q = this.options.set + '';
-        }
-
-        $.ajax({
-            url: __server_py_script_name__ + '?setsquare=' + q,
-            cache: false,
-            success: function () {
-                if (COUNTER_HAS_ALREADY_BEEN_UPDATED) {
-                    alert("WARNING: Have you used __SetCounter__ twice?");
-                }
-                COUNTER_HAS_ALREADY_BEEN_UPDATED = true;
-            },
-            error: function () {
-                if (console.log) {
-                    console.log("WARNING: Error updating counter using __SetCounter__ controller");
-                }
-            }
-        });
-
-        this.options._finishedCallback();
-    }
-});
-ibex_controller_set_properties("__SetCounter__", {
-    obligatory: [],
-    countsForProgressBar: false,
-    htmlDescription: function () { return $("<div>").text("[SET COUNTER]"); }
-});
-
 (function () {
-var RESULTS_HAVE_ALREADY_BEEN_SENT = false;
 $.widget("ui.__SendResults__", {
     _init: function() {
-        if (RESULTS_HAVE_ALREADY_BEEN_SENT)
-            alert("WARNING: Results have already been sent once. Did you forget to set the 'manualSendResults' config option?");
-
-	var spinSpan;
-        this.element.append($("<table>")
-                            .addClass("sending-results")
-                            .append($("<tr>")
-                                    .append($("<td>").text(conf_sendingResultsMessage + " " ))
-                                    .append($("<td>").css('width', '1.5em').append(spinSpan = $("<span>").text("/")))));
-
-        // Clear "practice" notice if it's still up.
-        if (practiceBox)
-            practiceBox.hide();
-
-        var spinChars = ["\u2013", "\\", "|", "/"];
-        var spinCharsPos = 0;
-        var spinSpanShouldBeSpinning = true;
-	var t = this;
-        function timerCallback() {
-            if (! spinSpanShouldBeSpinning) return;
-
-            spinSpan.text(spinChars[spinCharsPos]);
-	    ++spinCharsPos;
-            if (spinCharsPos == spinChars.length) spinCharsPos = 0;
-            t.options._utils.setTimeout(timerCallback, 200);
-        } // Note that this will be cleaned up automatically.
-        t.options._utils.setTimeout(timerCallback, 200);
-
-        sendResults(allResults,
-		    function() {
-                        RESULTS_HAVE_ALREADY_BEEN_SENT = true;
-                        spinSpanShouldBeSpinning = false;
-			t.element.empty().append($("<div>").addClass("sending-results").text(conf_completionMessage));
-			t.options._finishedCallback();
-		    },
-		    function() {
-                        spinSpanShouldBeSpinning = false;
-			t.element.empty()
-                                 .append($("<div>").addClass("sending-results").text(conf_completionErrorMessage + " ")
-                                         .append($("<span>")
-                                                 .addClass("retry")
-                                                 .text('Retry')
-                                                 .click(function (e) {
-                                                     e.preventDefault();
-                                                     t.element.empty();
-                                                     t._init();
-                                                 })));
-	            });
+      var datadiv = document.getElementById('data');
+      datadiv.value = JSON.stringify(allResults);
     }
 });
 })();
 ibex_controller_set_properties("__SendResults__", {
     obligatory: [],
     countsForProgressBar: false,
-    htmlDescription: function () { return $("<div>").text("[SEND RESULTS]"); }
+    htmlDescription: function () { }
 });
 
 // Now create our initial list of item sets (lists of Elements), merging in default options.
@@ -569,67 +455,6 @@ pForElement[runningOrder[0][0].controller](os);
 if (currentElementOptions.hideProgressBar)
     hideProgressBar();
 
-// Attempt to generate a unique MD5 hash based on various features of the user's
-// browser. (Ideas taken from http://panopticlick.eff.org/)
-// Note that the server also makes use of the user agent and IP address
-// when creating unique identifying hashes.
-function uniqueMD5() {
-    // Time zone.
-    var s = "" + new Date().getTimezoneOffset() + ':';
-
-    // Plugins.
-    var plugins = [
-        "Java",
-        "QuickTime",
-        "DevalVR",
-        "Shockwave",
-        "Flash",
-        "Windows Media Player",
-        "Silverlight",
-        "VLC Player"
-    ];
-    for (var i = 0; i < plugins.length; ++i) {
-        var v = PluginDetect.getVersion(plugins[i]);
-        if (v) s += plugins[i] + ':' + v;
-    }
-
-    // Whether or not cookies are turned on.
-    createCookie("TEST", "TEST", 0.01); // Keep it for 0.01 days.
-    if (readCookie("TEST") == "TEST")
-        s += "C";
-
-    // Screen dimensions and color depth.
-    var width = screen.width ? screen.width : 1;
-    var height = screen.height ? screen.height : 1;
-    var colorDepth = screen.colorDepth ? screen.colorDepth : 1;
-    s += width + ':' + height + ':' + colorDepth;
-
-    return b64_md5(s);
-}
-
-// Make a post request to a given address. Address may either be a domain
-// or an IP.
-function sendResults(resultsLines, success, failure)
-{
-    // Prepare the post data.
-    var data = JSON.stringify([false, // Now that we're not using cookies, it's never a random counter.
-                               counter,
-                               columnNamesArray,
-                               resultsLines,
-                               uniqueMD5(),
-                               !COUNTER_HAS_ALREADY_BEEN_UPDATED]);
-
-    $.ajax({
-        url: __server_py_script_name__,
-        cache: false,
-        contentType: "text/html; charset=UTF-8",
-        data: data,
-        type: "POST",
-        success: success,
-        error: failure
-    });
-}
-
 } // End of else for if (conf_showOverview).
 
-} // End function startup() {
+} // End function startup()
