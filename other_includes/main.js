@@ -102,6 +102,7 @@ $.widget("ui.__SendResults__", {
     _init: function() {
       var datadiv = document.getElementById('data');
       datadiv.value = JSON.stringify(allResults);
+      $('#submitButton').show();
     }
 });
 })();
