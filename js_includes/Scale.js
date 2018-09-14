@@ -150,13 +150,24 @@ jqueryWidget: {
                       height: this.handleHeight + 'px' });
 
         $bar.append($handle);
-        if (this.options.scaleLabels) {
+        if (this.options.scaleLabels || this.options.leftLabel != undefined || this.options.rightLabel != undefined) {
             $bar.append($handleLabel);
             $bar.append($leftLabel);
             $bar.append($rightLabel);
 
-            this.$leftLabel.text(this.startValue.toFixed(this.decimalPlaces));
-            this.$rightLabel.text(this.endValue.toFixed(this.decimalPlaces));
+            if (this.options.leftLabel != undefined) {
+              this.$leftLabel.text(this.options.leftLabel);
+            }
+            else {
+              this.$leftLabel.text(this.startValue.toFixed(this.decimalPlaces));
+            }
+
+            if (this.options.rightLabel != undefined) {
+              this.$rightLabel.text(this.options.rightLabel);
+            }
+            else {
+              this.$rightLabel.text(this.endValue.toFixed(this.decimalPlaces));
+            }
         }
         this.element.append($bar);
 
