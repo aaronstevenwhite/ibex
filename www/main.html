@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+
+    <!-- General utilities (map, filter, hashtables, ...) -->
+    <script type="text/javascript" src="https://cdn.rawgit.com/aaronstevenwhite/ibex/${gitid}/www/util.js"></script>
+    <!-- Code for executing shuffle sequences. -->
+    <script type="text/javascript" src="https://cdn.rawgit.com/aaronstevenwhite/ibex/${gitid}/www/shuffle.js"></script>
+    <!-- JSON serialization code. -->
+    <script type="text/javascript" src="https://cdn.rawgit.com/aaronstevenwhite/ibex/${gitid}/www/json.js"></script>
+    <!-- jQuery -->
+    <script src="https://cdn.rawgit.com/aaronstevenwhite/ibex/${gitid}/www/jquery.min.js"></script>
+    <script src="https://cdn.rawgit.com/aaronstevenwhite/ibex/${gitid}/www/jquery-ui.min.js"></script>
+    <!-- jsDump -->
+    <script src="https://cdn.rawgit.com/aaronstevenwhite/ibex/${gitid}/www/jsDump.js"></script>
+    <!-- PluginDetect -->
+    <script src="https://cdn.rawgit.com/aaronstevenwhite/ibex/${gitid}/www/PluginDetect.js"></script>
+    <!-- JS includes. -->
+    <script type="text/javascript" src="https://cdn.rawgit.com/aaronstevenwhite/ibex/${gitid}/js_includes/AcceptabilityJudgment.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/aaronstevenwhite/ibex/${gitid}/js_includes/DashedAcceptabilityJudgment.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/aaronstevenwhite/ibex/${gitid}/js_includes/DashedSentence.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/aaronstevenwhite/ibex/${gitid}/js_includes/FlashSentence.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/aaronstevenwhite/ibex/${gitid}/js_includes/Form.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/aaronstevenwhite/ibex/${gitid}/js_includes/Question.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/aaronstevenwhite/ibex/${gitid}/js_includes/Scale.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/aaronstevenwhite/ibex/${gitid}/js_includes/Separator.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/aaronstevenwhite/ibex/${gitid}/js_includes/Message.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/aaronstevenwhite/ibex/${gitid}/js_includes/VBox.js"></script>
+    <!-- Load items -->
+    <script>
+    var introContentUrl = "https://cdn.rawgit.com/aaronstevenwhite/ibex/${gitid}/chunk_includes/spr_veridicality_instructions.html";
+    var shuffleSequence = ${shuffleSequence};
+    var practiceItemTypes = ${practiceItemTypes};
+    var defaults = ${defaults};
+    var items = ${items};
+    </script>
+    <!-- Set up configuration variables. -->
+    <script type="text/javascript" src="https://cdn.rawgit.com/aaronstevenwhite/ibex/${gitid}/www/conf.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/aaronstevenwhite/ibex/${gitid}/css_includes/global_main.css"></link>
+    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/aaronstevenwhite/ibex/${gitid}/css_includes/DashedSentence.css"></link>
+    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/aaronstevenwhite/ibex/${gitid}/css_includes/FlashSentence.css"></link>
+    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/aaronstevenwhite/ibex/${gitid}/css_includes/Question.css"></link>
+    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/aaronstevenwhite/ibex/${gitid}/css_includes/Scale.css"></link>
+    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/aaronstevenwhite/ibex/${gitid}/css_includes/Form.css"></link>
+    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/aaronstevenwhite/ibex/${gitid}/css_includes/Separator.css"></link>
+    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/aaronstevenwhite/ibex/${gitid}/css_includes/Submission.css"></link>
+
+    <!-- To be reset by JavaScript. -->
+    <title>Experiment</title>
+    <script type="text/javascript">
+    <!--
+    document.title = conf_pageTitle;
+    -->
+    </script>
+</head>
+<body id="bod">
+
+<script type="text/javascript">
+<!-- -->
+</script>
+
+<noscript>
+<p>You need to have Javascript enabled in order to use this page.</p>
+</noscript>
+
+<input type='hidden' value='' name='data' id='data'/>
+<center><input type='submit' value='Submit' name='submitButton' id='submitButton' class='Submission-button' style="display: none;" /></center>
+
+<!-- The main body of JS code. -->
+<script type="text/javascript" src="https://cdn.rawgit.com/aaronstevenwhite/ibex/${gitid}/other_includes/main.js"></script>
+
+</body>
+</html>
